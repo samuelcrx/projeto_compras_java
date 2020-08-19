@@ -13,3 +13,4 @@ build
 bin
 classes
 *~
+/Compras/nbproject/private/
