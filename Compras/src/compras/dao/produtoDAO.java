@@ -5,6 +5,7 @@
  */
 package compras.dao;
 
+import compras.model.Compra;
 import java.util.List;
 
 /**
@@ -14,17 +15,17 @@ import java.util.List;
 public class produtoDAO implements IDAO{
 
     @Override
-    public void inserir() {
+    public void inserir(Compra compra) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void atualizar() {
+    public void atualizar(Compra compra) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List buscaPorId(int Id) {
+    public Compra buscaPorId(int Id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -32,6 +33,5 @@ public class produtoDAO implements IDAO{
     public void excluir(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
     
 }
