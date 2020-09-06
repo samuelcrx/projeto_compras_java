@@ -16,6 +16,7 @@ public class NovoProduto extends javax.swing.JFrame {
      */
     public NovoProduto() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
