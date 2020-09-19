@@ -5,24 +5,19 @@
  */
 package compras.dao;
 
-import compras.model.Compra;
-
 /**
  *
  * @author G0NN4 CRY
  */
 public interface IDAO {
     
-    //Insert
-    public abstract void inserir(Compra compra);
-    
+    //insert
+    public abstract void inserir(Object objeto) throws BancoDeDadosException;
     //update
-    public abstract void atualizar(Compra compra);
-    
+    public abstract void atualizar(Object objeto) throws BancoDeDadosException;
     //select
-    public abstract Compra buscaPorId(int Id);
-    
+    public abstract Object buscaPorId(int id) throws BancoDeDadosException;
     //delete
-    public abstract void excluir(int id);
+    public abstract int excluir(int id) throws BancoDeDadosException;
     
 }

@@ -6,11 +6,13 @@
 package compras.dao;
 
 import compras.model.Compra;
+import compras.model.Fornecedor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -20,149 +22,198 @@ import java.util.logging.Logger;
  *
  * @author G0NN4 CRY
  */
-public class compraDAO implements IDAO{ //herança por especificação
+public class compraDAO implements IDAO {
 
     @Override
-    public void inserir(Compra compra) {
+    public void inserir(Object objeto) throws BancoDeDadosException {
+        Compra c = (Compra)objeto; //cast
+        
         Connection con = Conexao.getConexao();
         PreparedStatement ps = null;
         
         try {
-            ps = con.prepareStatement("INSERT INTO compras(dat_compra, nota_fiscal, valor_total, fornecedor) VALUES(?, ?, ?, ?)");
             
-            ps.setDate(1, (java.sql.Date) new Date(Calendar.getInstance().getTimeInMillis()));
-            ps.setString(2, compra.getNota_fiscal());
-            ps.setDouble(3, compra.getValor_total());
-//            ps.set(3, compra.getValor_total());
+            ps = con.prepareStatement("INSERT INTO compras(dat_compra, nota_fiscal, valor_total, fornecedor) VALUE(?, ?, ?, ?)");
+            ps.setDate(1, new java.sql.Date( c.getDat_compra().getTime().getTime() ));
+            ps.setString(2, c.getNota_fiscal());
+            ps.setDouble(3, c.getValor_total());
             
-            ps.executeUpdate();
+            ps.setInt(4, c.getFornecedor().getId());
+            
+            if ( ps.executeUpdate() > 0 )
+                c.setId( this.getIdInserido() );
+            
             
         } catch (SQLException ex) {
-            Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error: " + ex.getMessage());
-        } finally {
+        
+            throw new BancoDeDadosException(ex.getMessage());           
+        
+        } finally{
             try {
                 ps.close();
             } catch (SQLException ex) {
-                Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("Error: " + ex.getMessage());
+                throw new BancoDeDadosException(ex.getMessage()); 
             }
         }
     }
-    public int getIdInserido() {
+    
+    private int getIdInserido() throws BancoDeDadosException{
+        
         Connection con = Conexao.getConexao();
-        PreparedStatement ps = null;
         Statement st = null;
         ResultSet rs = null;
         
         try {
-           st = con.createStatement();
-           rs = st.executeQuery("SELECT LAST_INSERT_ID() AS ultimo_id");
-           
-           rs.first();
-           
-           return rs.getInt("ultimo_id");
+            
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT LAST_INSERT_ID() AS ultimo_id");           
+            
+            rs.first();
+            
+            return rs.getInt("ultimo_id");
+                   
             
         } catch (SQLException ex) {
-            Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error: " + ex.getMessage());
-        } finally {
+        
+           throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
             try {
-                ps.close();
+                st.close();
+                rs.close();
             } catch (SQLException ex) {
-                Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new BancoDeDadosException(ex.getMessage()); 
             }
         }
-        return 0;
     }
 
     @Override
-    public void atualizar(Compra compra) {
+    public void atualizar(Object objeto) throws BancoDeDadosException {
+        Compra c = (Compra)objeto; //cast
+        
         Connection con = Conexao.getConexao();
         PreparedStatement ps = null;
         
         try {
-            ps = con.prepareStatement("UPDATE compras SET dat_compra = ? WHERE id = ?");
             
-            ps.setDate(1, (java.sql.Date) new Date(Calendar.getInstance().getTimeInMillis()));
-            ps.setInt(2, compra.getId());
+            ps = con.prepareStatement("UPDATE pessoas SET dat_compra = ?, nota_fiscal = ?, valor_total = ?, fornecedor = ? WHERE id = ?");
             
-//          ps.setString(2, compra.getNota_fiscal());
-//          ps.setDouble(3, compra.getValor_total());
-//          ps.set(3, compra.getValor_total());
+            ps.setDate(1, new java.sql.Date( c.getDat_compra().getTime().getTime() ));
+            ps.setString(2, c.getNota_fiscal());
+            ps.setDouble(3, c.getValor_total());
+            ps.setInt(4, c.getFornecedor().getId());
+            ps.setInt(5, c.getId());
             
             ps.executeUpdate();
             
+            
         } catch (SQLException ex) {
-            Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error: " + ex.getMessage());
-        } finally {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
             try {
                 ps.close();
             } catch (SQLException ex) {
-                Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("Error: " + ex.getMessage());
+                throw new BancoDeDadosException(ex.getMessage()); 
             }
         }
     }
 
     @Override
-    public Compra buscaPorId(int id) {
+    public Object buscaPorId(int id) throws BancoDeDadosException {
         Connection con = Conexao.getConexao();
         PreparedStatement ps = null;
-        ResultSet rs;
+        ResultSet rs = null;
         Compra c = null;
         
         try {
-            ps = con.prepareStatement("SELECT FROM compras WHERE id = ?");
-            ps.setInt(2, id);
+            
+            ps = con.prepareStatement("SELECT * FROM compras WHERE id = ?");
+            ps.setInt(1, id);
             
             rs = ps.executeQuery();
             
             rs.first();
             
             c = new Compra();
-            c.setNota_fiscal(rs.getString("nota_fiscal"));
-            c.setId(rs.getInt("id"));
             
-            return c;
+            this.preencheObjeto(c, rs);
             
         } catch (SQLException ex) {
-            Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error: " + ex.getMessage());
-        } finally {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
             try {
                 ps.close();
+                rs.close();
             } catch (SQLException ex) {
-                Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("Error: " + ex.getMessage());
+                throw new BancoDeDadosException(ex.getMessage()); 
             }
         }
+        
         return c;
     }
 
     @Override
-    public void excluir(int id) {
+    public int excluir(int id) throws BancoDeDadosException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public ArrayList<Compra> buscaTodos() throws BancoDeDadosException{
+        
         Connection con = Conexao.getConexao();
-        PreparedStatement ps = null;
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<Compra> lista = new ArrayList<Compra>();
         
         try {
-            ps = con.prepareStatement("DELETE FROM compras WHERE id = ?");
-            ps.setInt(1, id);
             
-            ps.executeUpdate();
+            st = con.createStatement();       
+            
+            rs = st.executeQuery("SELECT * FROM pessoas ORDER BY nome");
+            
+            while( rs.next() ){
+                
+                    Compra c = new Compra();
+                this.preencheObjeto(c, rs);
+             
+                lista.add(c);
+            }     
+            
+                   
             
         } catch (SQLException ex) {
-            Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println("Error: " + ex.getMessage());
-        } finally {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
             try {
-                ps.close();
+                st.close();
+                rs.close();
             } catch (SQLException ex) {
-                Logger.getLogger(compraDAO.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("Error: " + ex.getMessage());
+                throw new BancoDeDadosException(ex.getMessage()); 
             }
         }
-    }    
-    
+        
+        return lista;
+    }
+
+    private void preencheObjeto(Compra c, ResultSet rs) throws SQLException, BancoDeDadosException {
+        
+        // dat_compra, nota_fiscal, valor_total, fornecedor
+        Calendar n = Calendar.getInstance();
+        n.setTimeInMillis(rs.getDate("dat_compra").getTime());
+        c.setDat_compra(n);
+        
+        c.setNota_fiscal(rs.getString("nota_fiscal"));
+        c.setId(rs.getInt("id"));
+        c.setValor_total(rs.getDouble("valor_total"));
+
+        fornecedorDAO fordao = new fornecedorDAO();
+        Fornecedor f = fordao.buscaPorId(rs.getInt("fornecedor"));            
+        c.setFornecedor(f);        
+    }
+
 }

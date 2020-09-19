@@ -49,7 +49,7 @@ public class Fornecedor {
     }
 
     public void setId(int id) {
-        //this.id = id;
+        this.id = id;
     }
 
     public String getRazao_social() {
