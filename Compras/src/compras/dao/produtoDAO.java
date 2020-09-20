@@ -6,32 +6,32 @@
 package compras.dao;
 
 import compras.model.Compra;
-import java.util.List;
 
 /**
  *
  * @author G0NN4 CRY
  */
+
 public class produtoDAO implements IDAO{
 
     @Override
-    public void inserir(Compra compra) {
+    public void inserir(Object objeto) throws BancoDeDadosException {//Compra compra
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void atualizar(Compra compra) {
+    public void atualizar(Object objeto) throws BancoDeDadosException { //Compra compra
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Compra buscaPorId(int Id) {
+    public Object buscaPorId(int id) throws BancoDeDadosException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void excluir(int id) {
+    public int excluir(int id) throws BancoDeDadosException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

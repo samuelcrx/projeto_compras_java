@@ -5,6 +5,10 @@
  */
 package compras.view;
 
+import compras.dao.BancoDeDadosException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author G0NN4 CRY
@@ -157,9 +161,13 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        NovaCompra compra = new NovaCompra();
-        compra.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            NovaCompra compra = new NovaCompra();
+            compra.setVisible(true);
+        } catch (BancoDeDadosException ex) {
+            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

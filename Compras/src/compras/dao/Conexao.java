@@ -22,7 +22,8 @@ public class Conexao {
             //carregar o drive do MySQL na memoria
             Class.forName("com.mysql.jdbc.Driver");
             // estabelecer a conexão com o banco de dados
-            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/compras", "root", "gonnacry");
+            con = DriverManager.getConnection("jdbc:mysql://192.168.99.100:3306/compras", "root", "123456");
+            
             // definir algumas configuraçoes
         } catch (Exception ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);

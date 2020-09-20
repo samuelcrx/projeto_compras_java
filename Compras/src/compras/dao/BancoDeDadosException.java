@@ -9,7 +9,7 @@ package compras.dao;
  *
  * @author G0NN4 CRY
  */
-class BancoDeDadosException extends Exception {
+public class BancoDeDadosException extends Exception {
 
     public BancoDeDadosException(String msg) {
         super(msg);

@@ -6,6 +6,10 @@
 
 package compras.view;
 
+import compras.dao.BancoDeDadosException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author G0NN4 CRY
@@ -141,10 +145,14 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        Fornecedor fornecedor = new Fornecedor();
-        fornecedor.setVisible(true);
-        this.dispose();
+        try {
+            // TODO add your handling code here:
+            Fornecedor fornecedor = new Fornecedor();
+            fornecedor.setVisible(true);
+            this.dispose();
+        } catch (BancoDeDadosException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed

@@ -147,13 +147,37 @@ public class fornecedorDAO implements IDAO {
                 throw new BancoDeDadosException(ex.getMessage());
             }
         }
-
         return f;
     }
 
     @Override
     public int excluir(int id) throws BancoDeDadosException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+        
+        int totRegistroAfetado = 0;
+        
+        try {
+            
+            ps = con.prepareStatement("DELETE FROM fornecedores WHERE id = ?");
+            ps.setInt(1, id);
+            
+            totRegistroAfetado = ps.executeUpdate();
+            
+            
+        } catch (SQLException ex) {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
+        
+        return totRegistroAfetado;        
     }
 
     public ArrayList<Fornecedor> buscaTodos() throws BancoDeDadosException {
@@ -167,7 +191,7 @@ public class fornecedorDAO implements IDAO {
 
             st = con.createStatement();
 
-            rs = st.executeQuery("SELECT * FROM fornecedores ORDER BY nome");
+            rs = st.executeQuery("SELECT * FROM fornecedores");
 
             while (rs.next()) {
 
@@ -189,15 +213,13 @@ public class fornecedorDAO implements IDAO {
                 throw new BancoDeDadosException(ex.getMessage());
             }
         }
-
         return lista;
     }
 
     private void preencheObjeto(Fornecedor f, ResultSet rs) throws SQLException, BancoDeDadosException {
 
-        // razao_social, nome_fantasia, cnpj, telefone, email
-        f.setRazao_social(rs.getString("razao_social"));
         f.setId(rs.getInt("id"));
+        f.setRazao_social(rs.getString("razao_social"));
         f.setNome_fantasia(rs.getString("nome_fantasia"));
         f.setCnpj(rs.getString("cnpj"));
         f.setTelefone(rs.getString("telefone"));

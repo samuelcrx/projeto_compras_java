@@ -5,18 +5,36 @@
  */
 package compras.view;
 
+import compras.controller.FornecedorController;
+import compras.dao.BancoDeDadosException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rodri
  */
 public class EditarFornecedor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NovoFornecedor
-     */
+    private FornecedorController fornecedor;
+
     public EditarFornecedor() {
         initComponents();
         this.setLocationRelativeTo(null);
+               
+    }
+
+    public void setControlador(FornecedorController fornecedora) {
+        this.fornecedor = fornecedora;
+        
+         if ( this.fornecedor.getFornecedor()!= null ){
+        this.jtfRazaoSocial.setText(this.fornecedor.getFornecedor().getRazao_social());
+        this.jtfNomeFantasia.setText(this.fornecedor.getFornecedor().getNome_fantasia());
+        this.jtfCnpj.setText(this.fornecedor.getFornecedor().getCnpj());
+        this.jtfTelefone.setText(this.fornecedor.getFornecedor().getTelefone());
+        this.jtfEmail.setText(this.fornecedor.getFornecedor().getEmail());
+        }
     }
 
     /**
@@ -31,17 +49,17 @@ public class EditarFornecedor extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jtfRazaoSocial = new javax.swing.JTextField();
+        jtfNomeFantasia = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jtfCnpj = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jtfTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        jtfEmail = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
+        jbSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,59 +69,64 @@ public class EditarFornecedor extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Razão Social");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jtfRazaoSocial.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtfRazaoSocial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jtfRazaoSocialActionPerformed(evt);
             }
         });
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jtfNomeFantasia.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtfNomeFantasia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jtfNomeFantasiaActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setText("Nome Fantasia");
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jtfCnpj.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtfCnpj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jtfCnpjActionPerformed(evt);
             }
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("CNPJ");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        jtfTelefone.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtfTelefone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                jtfTelefoneActionPerformed(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setText("Telefone");
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        jtfEmail.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtfEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                jtfEmailActionPerformed(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("E-mail");
 
-        jToggleButton1.setText("Editar");
-
         jButton1.setText("Cancelar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jbSalvar.setText("Salvar");
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalvarActionPerformed(evt);
             }
         });
 
@@ -114,7 +137,7 @@ public class EditarFornecedor extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
+                    .addComponent(jtfRazaoSocial)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -124,14 +147,14 @@ public class EditarFornecedor extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
                         .addGap(0, 199, Short.MAX_VALUE))
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField5)
+                    .addComponent(jtfNomeFantasia)
+                    .addComponent(jtfCnpj)
+                    .addComponent(jtfTelefone)
+                    .addComponent(jtfEmail)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbSalvar)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -143,27 +166,27 @@ public class EditarFornecedor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfRazaoSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfNomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jButton1)))
+                    .addComponent(jButton1)
+                    .addComponent(jbSalvar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -186,30 +209,47 @@ public class EditarFornecedor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jtfRazaoSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfRazaoSocialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jtfRazaoSocialActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jtfNomeFantasiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNomeFantasiaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jtfNomeFantasiaActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jtfCnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCnpjActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_jtfCnpjActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void jtfTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfTelefoneActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_jtfTelefoneActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jtfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfEmailActionPerformed
+
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
+        
+        try {
+            this.fornecedor.salvar(this.jtfRazaoSocial.getText(), this.jtfNomeFantasia.getText() , this.jtfCnpj.getText(), this.jtfTelefone.getText(), this.jtfEmail.getText(), this.fornecedor.getFornecedor().getId());
+        
+            JOptionPane.showMessageDialog(rootPane, "Registro atualizado com sucesso");
+            
+            Fornecedor telaFornecedor = new Fornecedor();
+            telaFornecedor.setVisible(true);
+            
+            this.dispose();
+        } catch (BancoDeDadosException ex) {
+            Logger.getLogger(EditarFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jbSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,11 +296,11 @@ public class EditarFornecedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JButton jbSalvar;
+    private javax.swing.JTextField jtfCnpj;
+    private javax.swing.JTextField jtfEmail;
+    private javax.swing.JTextField jtfNomeFantasia;
+    private javax.swing.JTextField jtfRazaoSocial;
+    private javax.swing.JTextField jtfTelefone;
     // End of variables declaration//GEN-END:variables
 }
