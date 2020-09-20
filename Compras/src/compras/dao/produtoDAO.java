@@ -5,33 +5,238 @@
  */
 package compras.dao;
 
-import compras.model.Compra;
-
+import compras.model.Fornecedor;
+import compras.model.Produto;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 /**
  *
  * @author G0NN4 CRY
  */
 
 public class produtoDAO implements IDAO{
-
-    @Override
-    public void inserir(Object objeto) throws BancoDeDadosException {//Compra compra
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void inserir(Object objeto) throws BancoDeDadosException {
+        Produto p = (Produto)objeto; //cast
+        
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+        
+        try {
+            
+            ps = con.prepareStatement("INSERT INTO compras(nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedor) VALUE(?, ?, ?, ?, ?,?)");
+            
+            ps.setString(1, p.getNome());
+            ps.setInt(2, p.getEstoque());
+            ps.setDouble(3, p.getValor_custo());
+            ps.setDouble(4, p.getValor_venda());
+            ps.setDate(5, new java.sql.Date( p.getDat_ultima_compra().getTime().getTime() ));
+            ps.setInt(6, p.getFornecedor().getId());
+            
+            if ( ps.executeUpdate() > 0 )
+                p.setId( this.getIdInserido() );
+            
+            
+        } catch (SQLException ex) {
+        
+            throw new BancoDeDadosException(ex.getMessage());           
+        
+        } finally{
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
+    }
+    
+    private int getIdInserido() throws BancoDeDadosException{
+        
+        Connection con = Conexao.getConexao();
+        Statement st = null;
+        ResultSet rs = null;
+        
+        try {
+            
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT LAST_INSERT_ID() AS ultimo_id");           
+            
+            rs.first();
+            
+            return rs.getInt("ultimo_id");
+                   
+            
+        } catch (SQLException ex) {
+        
+           throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
+            try {
+                st.close();
+                rs.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
     }
 
     @Override
-    public void atualizar(Object objeto) throws BancoDeDadosException { //Compra compra
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void atualizar(Object objeto) throws BancoDeDadosException {
+        Produto p = (Produto)objeto; //cast
+        
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+        
+        try {
+            // nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedor
+            ps = con.prepareStatement("UPDATE pessoas SET nome = ?, estoque = ?, valor_custo = ?, valor_venda = ?, dat_ultima_compra = ?, fornecedor = ? WHERE id = ?");
+            
+            ps.setString(1, p.getNome());
+            ps.setInt(2, p.getEstoque());
+            ps.setDouble(3, p.getValor_custo());
+            ps.setDouble(4, p.getValor_venda());
+            ps.setDate(5, new java.sql.Date( p.getDat_ultima_compra().getTime().getTime() ));
+            ps.setInt(6, p.getFornecedor().getId());
+            ps.setInt(7, p.getId());
+            
+            ps.executeUpdate();
+            
+            
+        } catch (SQLException ex) {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
     }
 
     @Override
-    public Object buscaPorId(int id) throws BancoDeDadosException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Produto buscaPorId(int id) throws BancoDeDadosException {
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Produto p = null;
+        
+        try {
+            
+            ps = con.prepareStatement("SELECT * FROM produtos WHERE id = ?");
+            ps.setInt(1, id);
+            
+            rs = ps.executeQuery();
+            
+            rs.first();
+            
+            p = new Produto();
+            
+            this.preencheObjeto(p, rs);
+            
+        } catch (SQLException ex) {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
+            try {
+                ps.close();
+                rs.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
+        
+        return p;
     }
 
     @Override
     public int excluir(int id) throws BancoDeDadosException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+
+        int totRegistroAfetado = 0;
+
+        try {
+
+            ps = con.prepareStatement("DELETE FROM produtos WHERE id = ?");
+            ps.setInt(1, id);
+
+            totRegistroAfetado = ps.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            throw new BancoDeDadosException(ex.getMessage());
+
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage());
+            }
+        }
+        return totRegistroAfetado;
+    }
+    
+    public ArrayList<Produto> buscaTodos() throws BancoDeDadosException{
+        
+        Connection con = Conexao.getConexao();
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<Produto> lista = new ArrayList<Produto>();
+        
+        try {
+            
+            st = con.createStatement();       
+            
+            rs = st.executeQuery("SELECT * FROM produtos ORDER BY nome");
+            
+            while( rs.next() ){
+                
+                    Produto p = new Produto();
+                this.preencheObjeto(p, rs);
+             
+                lista.add(p);
+            }     
+            
+                   
+            
+        } catch (SQLException ex) {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
+            try {
+                st.close();
+                rs.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
+        
+        return lista;
     }
 
+    private void preencheObjeto(Produto p, ResultSet rs) throws SQLException, BancoDeDadosException {
+        
+        // nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedor
+        p.setNome(rs.getString("nome"));
+        p.setEstoque(rs.getInt("estoque"));
+        p.setValor_custo(rs.getDouble("valor_custo"));
+        p.setValor_venda(rs.getDouble("valor_venda"));
+        
+        Calendar n = Calendar.getInstance();
+        n.setTimeInMillis(rs.getDate("dat_ultima_compra").getTime());
+        p.setDat_ultima_compra(n);
+
+        fornecedorDAO fordao = new fornecedorDAO();
+        Fornecedor f = fordao.buscaPorId(rs.getInt("fornecedor"));            
+        p.setFornecedor(f);
+    }
 }

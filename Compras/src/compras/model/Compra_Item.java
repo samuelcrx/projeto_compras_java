@@ -10,25 +10,27 @@ package compras.model;
  * @author rodrigo
  */
 public class Compra_Item {
+
     private int id;
     private int quantidade;
     private double valor;
-    private int compras_id;
-    private int produtos_id;
+    private Compra compras_id;
+    private Produto produtos_id;
 
     public Compra_Item() {
-        this.id             = 0;
-        this.quantidade     = 0;
-        this.valor          = 0;
-        this.compras_id     = 0;
-        this.produtos_id    = 0;
+        this.id = 0;
+        this.quantidade = 0;
+        this.valor = 0;
+        this.compras_id = new Compra();
+        this.produtos_id = new Produto();
     }
-    public Compra_Item(int id, int quantidade, double valor, int compras_id, int produtos_id) {
-        this.id             = id;
-        this.quantidade     = quantidade;
-        this.valor          = valor;
-        this.compras_id     = compras_id;
-        this.produtos_id    = produtos_id;
+
+    public Compra_Item(int id, int quantidade, double valor, Compra compras_id, Produto produtos_id) {
+        this.id = id;
+        this.quantidade = quantidade;
+        this.valor = valor;
+        this.compras_id = compras_id;
+        this.produtos_id = produtos_id;
     }
 
     public int getId() {
@@ -44,10 +46,9 @@ public class Compra_Item {
     }
 
     public void setQuantidade(int quantidade) {
-        if ( quantidade > 0 ) {
+        if (quantidade > 0) {
             this.quantidade = quantidade;
-        }
-        else {
+        } else {
             System.out.println("Informe a quantidade!");
         }
     }
@@ -57,40 +58,34 @@ public class Compra_Item {
     }
 
     public void setValor(double valor) {
-        if ( valor > 0 ) {
+        if (valor > 0) {
             this.valor = valor;
-        }
-        else {
+        } else {
             System.out.println("Informe o valor!");
         }
     }
 
-    public int getCompras_id() {
+    public Compra getCompras_id() {
         return compras_id;
     }
 
-    public void setCompras_id(int compras_id) {
-        if ( compras_id > 0 ) {
+    public void setCompras_id(Compra compras_id) {
+        if (compras_id == null) {
+            compras_id = new Compra();
+        } else {
             this.compras_id = compras_id;
-        }
-        else {
-            System.out.println("Informe o número da Compra!");
         }
     }
 
-    public int getProdutos_id() {
+    public Produto getProdutos_id() {
         return produtos_id;
     }
 
-    public void setProdutos_id(int produtos_id) {
-        if ( compras_id > 0 ) {
+    public void setProdutos_id(Produto produtos_id) {
+        if (produtos_id == null) {
+            produtos_id = new Produto();
+        } else {
             this.produtos_id = produtos_id;
         }
-        else {
-            System.out.println("Informe o Produto!");
-        }        
     }
-    
-    
-    
 }

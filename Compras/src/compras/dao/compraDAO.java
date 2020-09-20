@@ -121,7 +121,7 @@ public class compraDAO implements IDAO {
     }
 
     @Override
-    public Object buscaPorId(int id) throws BancoDeDadosException {
+    public Compra buscaPorId(int id) throws BancoDeDadosException {
         Connection con = Conexao.getConexao();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -158,7 +158,31 @@ public class compraDAO implements IDAO {
 
     @Override
     public int excluir(int id) throws BancoDeDadosException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+
+        int totRegistroAfetado = 0;
+
+        try {
+
+            ps = con.prepareStatement("DELETE FROM compras WHERE id = ?");
+            ps.setInt(1, id);
+
+            totRegistroAfetado = ps.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            throw new BancoDeDadosException(ex.getMessage());
+
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage());
+            }
+        }
+
+        return totRegistroAfetado;
     }
     
     public ArrayList<Compra> buscaTodos() throws BancoDeDadosException{
@@ -213,7 +237,7 @@ public class compraDAO implements IDAO {
 
         fornecedorDAO fordao = new fornecedorDAO();
         Fornecedor f = fordao.buscaPorId(rs.getInt("fornecedor"));            
-        c.setFornecedor(f);        
+        c.setFornecedor(f);
     }
 
 }

@@ -177,7 +177,7 @@ public class fornecedorDAO implements IDAO {
             }
         }
         
-        return totRegistroAfetado;        
+        return totRegistroAfetado;
     }
 
     public ArrayList<Fornecedor> buscaTodos() throws BancoDeDadosException {
