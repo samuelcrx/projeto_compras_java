@@ -75,9 +75,6 @@ public class Fornecedor extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtFornecedores = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jbEditar = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -123,27 +120,6 @@ public class Fornecedor extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Fornecedores");
 
-        jToggleButton1.setText("Novo");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
-
-        jbEditar.setText("Editar");
-        jbEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEditarActionPerformed(evt);
-            }
-        });
-
-        jToggleButton3.setText("Excluir");
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton3ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,12 +137,6 @@ public class Fornecedor extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jbEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -177,11 +147,7 @@ public class Fornecedor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton3)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jbEditar)
-                    .addComponent(jButton1))
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
@@ -204,58 +170,6 @@ public class Fornecedor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        try {
-            NovoFornecedor fornecedor = new NovoFornecedor();
-            fornecedor.setVisible(true);
-            this.dispose();
-        } catch (BancoDeDadosException ex) {
-            Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        
-         if (this.jtFornecedores.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um registro da tabela primeiramente!");
-        } else {
-             try {
-                 
-                 DefaultTableModel tabela = (DefaultTableModel) this.jtFornecedores.getModel();
-                 
-                 int row = jtFornecedores.getSelectedRow();
-                 
-                 this.controlador.excluir((int) (tabela.getValueAt(row, 0)));
-                 JOptionPane.showMessageDialog(rootPane, "Registro deletado com sucesso!");
-                 
-                 tabela.removeRow(row);
-             } catch (BancoDeDadosException ex) {
-                 Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
-             }
-         }
-        
-        
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
-
-    private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
-
-        if (this.jtFornecedores.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um registro da tabela primeiramente!");
-        } else {
-            try {
-                this.controlador.setFornecedorSelecionado(this.jtFornecedores.getSelectedRow());
-                EditarFornecedor fornecedor = new EditarFornecedor();
-                fornecedor.setVisible(true);
-                fornecedor.setControlador(this.controlador);
-                this.dispose();
-            } catch (BancoDeDadosException ex) {
-                Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-
-    }//GEN-LAST:event_jbEditarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -311,9 +225,6 @@ public class Fornecedor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jbEditar;
     private javax.swing.JTable jtFornecedores;
     // End of variables declaration//GEN-END:variables
 }

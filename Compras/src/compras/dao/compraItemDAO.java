@@ -92,7 +92,7 @@ public class compraItemDAO implements IDAO {
 
         try {
             // quantidade, valor, compras_id, produtos_id
-            ps = con.prepareStatement("UPDATE pessoas SET quantidade = ?, valor = ?, compras_id = ?, produtos_id = ? WHERE id = ?");
+            ps = con.prepareStatement("UPDATE compras_itens SET quantidade = ?, valor = ?, compras_id = ?, produtos_id = ? WHERE id = ?");
 
             ps.setInt(1, ci.getQuantidade());
             ps.setDouble(2, ci.getValor());
@@ -190,7 +190,7 @@ public class compraItemDAO implements IDAO {
 
             st = con.createStatement();
 
-            rs = st.executeQuery("SELECT * FROM compras_itens ORDER BY id");
+            rs = st.executeQuery("SELECT * FROM compras_itens");
 
             while (rs.next()) {
 
@@ -224,7 +224,7 @@ public class compraItemDAO implements IDAO {
         ci.setValor(rs.getDouble("valor"));
 
         compraDAO cmdao = new compraDAO();
-        Compra c = cmdao.buscaPorId(rs.getInt("compra_id"));
+        Compra c = cmdao.buscaPorId(rs.getInt("compras_id"));
         ci.setCompras_id(c);
 
         produtoDAO prodao = new produtoDAO();

@@ -21,19 +21,19 @@ public class NovaCompra extends javax.swing.JFrame {
 
     private ComprasController controlador;
     Utilitarios utils;
-    
+
     public NovaCompra() throws BancoDeDadosException {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         this.jtfNotaFiscal.requestFocusInWindow();
-        
+
         this.controlador = new ComprasController();
-        
+
         preencheFornecedores();
     }
 
-     private void preencheFornecedores() throws BancoDeDadosException {
+    private void preencheFornecedores() throws BancoDeDadosException {
 
         this.jcbFornecedor.removeAllItems();
 
@@ -44,8 +44,7 @@ public class NovaCompra extends javax.swing.JFrame {
         }
 
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -174,7 +173,7 @@ public class NovaCompra extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             Compra telaCompra = new Compra();
-            
+
             telaCompra.setVisible(true);
             this.dispose();
         } catch (BancoDeDadosException ex) {
@@ -183,34 +182,33 @@ public class NovaCompra extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          
-         if (this.jtfNotaFiscal.getText().trim().isEmpty()
-                || this.jtfValorTotal.getText().trim().isEmpty()
-                || this.jdcDataCompra.getDate() == null) {
-            JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos!");
-            return;
+
+        try {
+            if (this.jtfNotaFiscal.getText().trim().isEmpty()
+                    || this.jtfValorTotal.getText().trim().isEmpty()
+                    || this.jdcDataCompra.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Preencha todos os campos!");
+                return;
+            } else if (this.jtfNotaFiscal.getText().length() > 6) {
+                JOptionPane.showMessageDialog(rootPane, "A nota fiscal não deve exceder 6 caracteres!");
+                return;
+            }
+
+            String formatoData = "yyyy/MM/dd";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatoData);
+
+            String dataUltimaCompra = simpleDateFormat.format(jdcDataCompra.getDate());
+
+            this.controlador.cadastrar(dataUltimaCompra, this.jtfNotaFiscal.getText(), Double.parseDouble(this.jtfValorTotal.getText()), this.jcbFornecedor.getSelectedIndex());
+            this.jtfNotaFiscal.setText("");
+            this.jtfValorTotal.setText("");
+            this.jdcDataCompra.setDate(null);
+            JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!");
+
+        } catch (BancoDeDadosException ex) {
+            Logger.getLogger(NovaCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-         else if (this.jtfNotaFiscal.getText().length() > 6) {
-             JOptionPane.showMessageDialog(rootPane, "A nota fiscal não deve exceder 6 caracteres!");
-             return;
-         }
 
-         try {
-                String formatoData = "yyyy/MM/dd";
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatoData);
-
-                String dataUltimaCompra = simpleDateFormat.format(jdcDataCompra.getDate());
-
-                this.controlador.cadastrar(dataUltimaCompra, this.jtfNotaFiscal.getText(), Double.parseDouble(this.jtfValorTotal.getText()), this.jcbFornecedor.getSelectedIndex());
-                this.jtfNotaFiscal.setText("");
-                this.jtfValorTotal.setText("");
-                this.jdcDataCompra.setDate(null);
-                JOptionPane.showMessageDialog(null, "Produto salvo com sucesso!");
-            } catch (BancoDeDadosException ex) {
-                Logger.getLogger(NovoProduto.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

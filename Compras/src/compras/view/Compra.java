@@ -20,13 +20,13 @@ import javax.swing.table.DefaultTableModel;
 public class Compra extends javax.swing.JFrame {
 
     private ComprasController controlador;
-    
+
     public Compra() throws BancoDeDadosException {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         this.controlador = new ComprasController();
-        
+
         preencheTabela();
     }
 
@@ -40,14 +40,11 @@ public class Compra extends javax.swing.JFrame {
                         Utilitarios.formatarData(this.controlador.getListaCompras().get(i).getDat_compra()),
                         this.controlador.getListaCompras().get(i).getNota_fiscal(),
                         this.controlador.getListaCompras().get(i).getFornecedor().getNome_fantasia(),
-                        this.controlador.getListaCompras().get(i).getValor_total(),
-                    }
+                        this.controlador.getListaCompras().get(i).getValor_total(),}
             );
         }
     }
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -179,7 +176,7 @@ public class Compra extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        
+
         Menu menu = new Menu();
         menu.setVisible(true);
         this.dispose();
@@ -203,7 +200,7 @@ public class Compra extends javax.swing.JFrame {
             this.controlador.setCompraSelecionado(jtCompras.getSelectedRow());
             editarCompra.setControlador(controlador);
             editarCompra.setVisible(true);
-            
+
             this.dispose();
         } catch (BancoDeDadosException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,25 +208,25 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         if (this.jtCompras.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um registro para deletar!");
         } else {
-             try {
-                 
-                 DefaultTableModel tabela = (DefaultTableModel) this.jtCompras.getModel();
-                 
-                 int row = jtCompras.getSelectedRow();
-                 
-                 this.controlador.excluir((int) (tabela.getValueAt(row, 0)));
-                 JOptionPane.showMessageDialog(rootPane, "Registro deletado com sucesso!");
-                 
-                 tabela.removeRow(row);
-             } catch (BancoDeDadosException ex) {
-                 Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
-             }
-         }
-        
+            try {
+
+                DefaultTableModel tabela = (DefaultTableModel) this.jtCompras.getModel();
+
+                int row = jtCompras.getSelectedRow();
+
+                this.controlador.excluir((int) (tabela.getValueAt(row, 0)));
+                JOptionPane.showMessageDialog(rootPane, "Registro deletado com sucesso!");
+
+                tabela.removeRow(row);
+            } catch (BancoDeDadosException ex) {
+                Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
