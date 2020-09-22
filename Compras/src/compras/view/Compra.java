@@ -194,16 +194,22 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try {
 
-            EditarCompra editarCompra = new EditarCompra();
-            this.controlador.setCompraSelecionado(jtCompras.getSelectedRow());
-            editarCompra.setControlador(controlador);
-            editarCompra.setVisible(true);
+        if (this.jtCompras.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione um registro da tabela primeiramente!");
+        } else {
 
-            this.dispose();
-        } catch (BancoDeDadosException ex) {
-            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+
+                EditarCompra editarCompra = new EditarCompra();
+                this.controlador.setCompraSelecionado(jtCompras.getSelectedRow());
+                editarCompra.setControlador(controlador);
+                editarCompra.setVisible(true);
+
+                this.dispose();
+            } catch (BancoDeDadosException ex) {
+                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

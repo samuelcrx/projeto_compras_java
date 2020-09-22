@@ -38,7 +38,38 @@ public class produtoDAO implements IDAO {
 
     @Override
     public Produto buscaPorId(int id) throws BancoDeDadosException {
-        return null;
+        Connection con = Conexao.getConexao();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Produto p = null;
+        
+        try {
+            
+            ps = con.prepareStatement("SELECT * FROM produtos WHERE id = ?");
+            ps.setInt(1, id);
+            
+            rs = ps.executeQuery();
+            
+            rs.first();
+            
+            p = new Produto();
+            
+            this.preencheObjeto(p, rs);
+            
+        } catch (SQLException ex) {
+        
+            throw new BancoDeDadosException(ex.getMessage());
+        
+        } finally{
+            try {
+                ps.close();
+                rs.close();
+            } catch (SQLException ex) {
+                throw new BancoDeDadosException(ex.getMessage()); 
+            }
+        }
+        
+        return p;
     }
 
     @Override
