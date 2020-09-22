@@ -7,6 +7,7 @@
 package compras.view;
 
 import compras.dao.BancoDeDadosException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -169,10 +170,14 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        Produto produto = new Produto();
-        produto.setVisible(true);
-        this.dispose();
+        try {
+            // TODO add your handling code here:
+            Produto produto = new Produto();
+            produto.setVisible(true);
+            this.dispose();
+        } catch (BancoDeDadosException | ParseException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

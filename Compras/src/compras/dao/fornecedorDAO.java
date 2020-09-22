@@ -181,7 +181,6 @@ public class fornecedorDAO implements IDAO {
     }
 
     public ArrayList<Fornecedor> buscaTodos() throws BancoDeDadosException {
-
         Connection con = Conexao.getConexao();
         Statement st = null;
         ResultSet rs = null;

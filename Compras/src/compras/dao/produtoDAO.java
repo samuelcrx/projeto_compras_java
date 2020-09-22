@@ -12,9 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 /**
  *
  * @author G0NN4 CRY
@@ -29,7 +30,7 @@ public class produtoDAO implements IDAO{
         
         try {
             
-            ps = con.prepareStatement("INSERT INTO compras(nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedor) VALUE(?, ?, ?, ?, ?,?)");
+            ps = con.prepareStatement("INSERT INTO produtos(nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedores_id) VALUE(?, ?, ?, ?, ?,?)");
             
             ps.setString(1, p.getNome());
             ps.setInt(2, p.getEstoque());
@@ -93,8 +94,7 @@ public class produtoDAO implements IDAO{
         PreparedStatement ps = null;
         
         try {
-            // nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedor
-            ps = con.prepareStatement("UPDATE pessoas SET nome = ?, estoque = ?, valor_custo = ?, valor_venda = ?, dat_ultima_compra = ?, fornecedor = ? WHERE id = ?");
+            ps = con.prepareStatement("UPDATE produtos SET nome = ?, estoque = ?, valor_custo = ?, valor_venda = ?, dat_ultima_compra = ?, fornecedores_id = ? WHERE id = ?");
             
             ps.setString(1, p.getNome());
             ps.setInt(2, p.getEstoque());
@@ -195,11 +195,11 @@ public class produtoDAO implements IDAO{
             
             st = con.createStatement();       
             
-            rs = st.executeQuery("SELECT * FROM produtos ORDER BY nome");
+            rs = st.executeQuery("SELECT * FROM produtos");
             
             while( rs.next() ){
                 
-                    Produto p = new Produto();
+                Produto p = new Produto();
                 this.preencheObjeto(p, rs);
              
                 lista.add(p);
@@ -225,18 +225,21 @@ public class produtoDAO implements IDAO{
 
     private void preencheObjeto(Produto p, ResultSet rs) throws SQLException, BancoDeDadosException {
         
-        // nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedor
+        
+        p.setId(rs.getInt("id"));
         p.setNome(rs.getString("nome"));
         p.setEstoque(rs.getInt("estoque"));
         p.setValor_custo(rs.getDouble("valor_custo"));
         p.setValor_venda(rs.getDouble("valor_venda"));
         
+        
         Calendar n = Calendar.getInstance();
-        n.setTimeInMillis(rs.getDate("dat_ultima_compra").getTime());
+        n.setTime(rs.getDate("dat_ultima_compra"));
         p.setDat_ultima_compra(n);
+        
 
-        fornecedorDAO fordao = new fornecedorDAO();
-        Fornecedor f = fordao.buscaPorId(rs.getInt("fornecedor"));            
+        fornecedorDAO forDAO = new fornecedorDAO();
+        Fornecedor f = forDAO.buscaPorId(rs.getInt("fornecedores_id"));            
         p.setFornecedor(f);
     }
 }

@@ -250,7 +250,7 @@ public class NovoFornecedor extends javax.swing.JFrame {
                 this.jtfCnpj.setText("");
                 this.jtfTelefone.setText("");
                 this.jtfEmail.setText("");
-                JOptionPane.showMessageDialog(null, "Fornecedor salvo com sucesso!");
+                JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso!");
                 
                 
             } catch (BancoDeDadosException e) {
