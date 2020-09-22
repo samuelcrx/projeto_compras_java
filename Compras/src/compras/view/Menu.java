@@ -162,11 +162,15 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Compra compra = new Compra();
-        compra.setVisible(true);
-        
-        this.dispose();
+        try {
+            // TODO add your handling code here:
+            Compra compra = new Compra();
+            compra.setVisible(true);
+            
+            this.dispose();
+        } catch (BancoDeDadosException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

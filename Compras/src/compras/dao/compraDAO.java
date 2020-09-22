@@ -33,7 +33,7 @@ public class compraDAO implements IDAO {
         
         try {
             
-            ps = con.prepareStatement("INSERT INTO compras(dat_compra, nota_fiscal, valor_total, fornecedor) VALUE(?, ?, ?, ?)");
+            ps = con.prepareStatement("INSERT INTO compras(dat_compra, nota_fiscal, valor_total, fornecedores_id) VALUE(?, ?, ?, ?)");
             ps.setDate(1, new java.sql.Date( c.getDat_compra().getTime().getTime() ));
             ps.setString(2, c.getNota_fiscal());
             ps.setDouble(3, c.getValor_total());
@@ -96,7 +96,7 @@ public class compraDAO implements IDAO {
         
         try {
             
-            ps = con.prepareStatement("UPDATE pessoas SET dat_compra = ?, nota_fiscal = ?, valor_total = ?, fornecedor = ? WHERE id = ?");
+            ps = con.prepareStatement("UPDATE compras SET dat_compra = ?, nota_fiscal = ?, valor_total = ?, fornecedores_id = ? WHERE id = ?");
             
             ps.setDate(1, new java.sql.Date( c.getDat_compra().getTime().getTime() ));
             ps.setString(2, c.getNota_fiscal());
@@ -196,7 +196,7 @@ public class compraDAO implements IDAO {
             
             st = con.createStatement();       
             
-            rs = st.executeQuery("SELECT * FROM pessoas ORDER BY nome");
+            rs = st.executeQuery("SELECT * FROM compras");
             
             while( rs.next() ){
                 
@@ -236,7 +236,7 @@ public class compraDAO implements IDAO {
         c.setValor_total(rs.getDouble("valor_total"));
 
         fornecedorDAO fordao = new fornecedorDAO();
-        Fornecedor f = fordao.buscaPorId(rs.getInt("fornecedor"));            
+        Fornecedor f = fordao.buscaPorId(rs.getInt("fornecedores_id"));            
         c.setFornecedor(f);
     }
 
