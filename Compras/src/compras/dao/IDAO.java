@@ -12,7 +12,7 @@ package compras.dao;
 public interface IDAO {
     
     //insert
-    public abstract void inserir(Object objeto) throws BancoDeDadosException;
+    public abstract void inserir(Object objeto) throws BancoDeDadosException, IntegracaoException;
     //update
     public abstract void atualizar(Object objeto) throws BancoDeDadosException;
     //select

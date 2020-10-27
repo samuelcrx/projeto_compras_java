@@ -7,6 +7,8 @@ package compras.view;
 
 import compras.controller.ComprasItensController;
 import compras.dao.BancoDeDadosException;
+import compras.dao.IntegracaoException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -223,7 +225,9 @@ public class NovoCompraItem extends javax.swing.JFrame {
                 this.jtfQtd.setText("");
                 this.jtfValor.setText("");
                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
-            } catch (BancoDeDadosException ex) {
+            } catch (BancoDeDadosException | IOException ex) {
+                Logger.getLogger(NovoCompraItem.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IntegracaoException ex) {
                 Logger.getLogger(NovoCompraItem.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

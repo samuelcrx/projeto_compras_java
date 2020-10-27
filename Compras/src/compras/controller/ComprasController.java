@@ -1,10 +1,14 @@
 package compras.controller;
 
 import compras.dao.BancoDeDadosException;
+import compras.dao.IntegracaoException;
 import compras.dao.compraDAO;
 import compras.dao.fornecedorDAO;
 import compras.model.Compra;
 import compras.model.Fornecedor;
+import compras.uteis.GerenciadorIntegracao;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -109,6 +113,11 @@ public class ComprasController {
     public void setCompraSelecionado(int indice) throws BancoDeDadosException {
         this.indice = indice;
         this.compra = this.listaCompras.get(indice);
+    }
+
+    public void importarDados() throws IntegracaoException, IOException, BancoDeDadosException, ParseException {
+
+        GerenciadorIntegracao.consomeDadosIntegracao(0);
     }
 
 }

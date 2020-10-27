@@ -23,6 +23,35 @@ public class fornecedorDAO implements IDAO {
 
     @Override
     public void inserir(Object objeto) throws BancoDeDadosException {
+        Fornecedor f = (Fornecedor) objeto; //cast	
+
+        Connection con = Conexao.getConexao();	
+        PreparedStatement ps = null;	
+
+        try {	
+
+            ps = con.prepareStatement("INSERT INTO fornecedores(razao_social, nome_fantasia, cnpj, telefone, email) VALUE(?, ?, ?, ?, ?)");	
+            ps.setString(1, f.getRazao_social());	
+            ps.setString(2, f.getNome_fantasia());	
+            ps.setString(3, f.getCnpj());	
+            ps.setString(4, f.getTelefone());	
+            ps.setString(5, f.getEmail());	
+
+            if (ps.executeUpdate() > 0) {	
+                f.setId(this.getIdInserido());	
+            }	
+
+        } catch (SQLException ex) {	
+
+            throw new BancoDeDadosException(ex.getMessage());	
+
+        } finally {	
+            try {	
+                ps.close();	
+            } catch (SQLException ex) {	
+                throw new BancoDeDadosException(ex.getMessage());	
+            }	
+        }
     }
 
     private int getIdInserido() throws BancoDeDadosException {

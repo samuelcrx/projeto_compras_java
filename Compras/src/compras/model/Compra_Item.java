@@ -16,6 +16,10 @@ public class Compra_Item {
     private double valor;
     private Compra compras_id;
     private Produto produtos_id;
+    
+    private int compras_id2;
+    private int produtos_id2;
+    
 
     public Compra_Item() {
         this.id = 0;
@@ -23,6 +27,14 @@ public class Compra_Item {
         this.valor = 0;
         this.compras_id = new Compra();
         this.produtos_id = new Produto();
+    }
+    
+    public Compra_Item(int id, int quantidade, double valor, int compras_id, int produtos_id) {
+        this.id = id;
+        this.quantidade = quantidade;
+        this.valor = valor;
+        this.compras_id2= compras_id;
+        this.produtos_id2 = produtos_id;
     }
 
     public Compra_Item(int id, int quantidade, double valor, Compra compras_id, Produto produtos_id) {
@@ -68,6 +80,10 @@ public class Compra_Item {
     public Compra getCompras_id() {
         return compras_id;
     }
+    
+    public int getCompras_id2() {
+        return compras_id2;
+    }
 
     public void setCompras_id(Compra compras_id) {
         if (compras_id == null) {
@@ -79,6 +95,10 @@ public class Compra_Item {
 
     public Produto getProdutos_id() {
         return produtos_id;
+    }
+    
+    public int getProdutos_id2() {
+        return produtos_id2;
     }
 
     public void setProdutos_id(Produto produtos_id) {

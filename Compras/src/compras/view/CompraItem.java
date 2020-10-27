@@ -7,7 +7,12 @@ package compras.view;
 
 import compras.controller.ComprasItensController;
 import compras.dao.BancoDeDadosException;
+import compras.dao.IntegracaoException;
+import compras.model.Compra_Item;
+import compras.uteis.GerenciadorIntegracao;
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -57,6 +62,7 @@ public class CompraItem extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
+        jbtnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,6 +122,13 @@ public class CompraItem extends javax.swing.JFrame {
             }
         });
 
+        jbtnExportar.setText("Exportar dados");
+        jbtnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnExportarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,7 +142,8 @@ public class CompraItem extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jbtnExportar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
@@ -150,7 +164,8 @@ public class CompraItem extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jbtnExportar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -228,10 +243,36 @@ public class CompraItem extends javax.swing.JFrame {
                 tabela.removeRow(row);
             } catch (BancoDeDadosException ex) {
                 Logger.getLogger(Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(CompraItem.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jbtnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExportarActionPerformed
+
+        try {
+            ArrayList<Compra_Item> lista = new ArrayList<Compra_Item>();
+            
+            
+            for (int i = 0; i < this.controlador.getListaComprasItens().size(); i++) {
+                
+                lista.add(new Compra_Item(
+                        this.controlador.getListaComprasItens().get(i).getId(),
+                        this.controlador.getListaComprasItens().get(i).getQuantidade(),
+                        this.controlador.getListaComprasItens().get(i).getValor(),
+                        this.controlador.getListaComprasItens().get(i).getCompras_id().getId(),
+                        this.controlador.getListaComprasItens().get(i).getProdutos_id().getId()
+                ));
+            }
+            
+            GerenciadorIntegracao.produzDadosIntegracao(0, 0, lista);
+        } catch (IOException ex) {
+            Logger.getLogger(CompraItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jbtnExportarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,6 +322,7 @@ public class CompraItem extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtnExportar;
     private javax.swing.JTable jtCompraItens;
     // End of variables declaration//GEN-END:variables
 }

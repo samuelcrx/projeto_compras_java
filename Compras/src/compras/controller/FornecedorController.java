@@ -6,8 +6,12 @@
 package compras.controller;
 
 import compras.dao.BancoDeDadosException;
+import compras.dao.IntegracaoException;
 import compras.dao.fornecedorDAO;
 import compras.model.Fornecedor;
+import compras.uteis.GerenciadorIntegracao;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +36,11 @@ public class FornecedorController {
 
     public ArrayList<Fornecedor> getListaTodosFornecedores() {
         return this.listaFornecedores;
+    }
+    
+     public void importarDados() throws IntegracaoException, IOException, BancoDeDadosException, ParseException {
+
+        GerenciadorIntegracao.consomeDadosIntegracao(1);
     }
 
 }

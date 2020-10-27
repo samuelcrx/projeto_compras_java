@@ -6,9 +6,12 @@
 package compras.controller;
 
 import compras.dao.BancoDeDadosException;
+import compras.dao.IntegracaoException;
 import compras.dao.produtoDAO;
 import compras.model.Fornecedor;
 import compras.model.Produto;
+import compras.uteis.GerenciadorIntegracao;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -34,6 +37,11 @@ public class ProdutosController {
 
     public ArrayList<Produto> getListaProdutos() {
         return this.listaProdutos;
+    }
+    
+    public void importarDados() throws IntegracaoException, IOException, BancoDeDadosException, ParseException {
+
+        GerenciadorIntegracao.consomeDadosIntegracao(2);
     }
 
 }

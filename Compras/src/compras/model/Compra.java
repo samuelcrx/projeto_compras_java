@@ -17,6 +17,7 @@ public class Compra {
     private String nota_fiscal;
     private double valor_total;
     private Fornecedor fornecedor;
+    private int fornecedorId;
 
     public Compra() {
         this.id                 = 0;
@@ -25,6 +26,7 @@ public class Compra {
         this.valor_total        = 0;
         this.fornecedor         = new Fornecedor();
     }
+    
     public Compra(int id, Calendar dat_compra, String nota_fiscal, double valor_total, Fornecedor fornecedor) {
         //this.id                 = id;
         
@@ -39,6 +41,22 @@ public class Compra {
         this.nota_fiscal        = nota_fiscal;
         this.valor_total        = valor_total;
         this.fornecedor         = fornecedor;
+    }
+    
+    public Compra(int id, Calendar dat_compra, String nota_fiscal, double valor_total, int fornecedor) {
+        
+        if (dat_compra == null) {
+            dat_compra = Calendar.getInstance();
+        }
+        this.dat_compra         = dat_compra;
+        
+        if ( nota_fiscal == null ) {
+            nota_fiscal = "";
+        }
+        this.id                 = id;
+        this.nota_fiscal        = nota_fiscal;
+        this.valor_total        = valor_total;
+        this.fornecedorId         = fornecedor;
     }
 
     public int getId() {
@@ -87,6 +105,10 @@ public class Compra {
             fornecedor = new Fornecedor();
         }
         this.fornecedor = fornecedor;
+    }
+    
+    public int getFornecedorId() {
+        return fornecedorId;
     }
     
 }

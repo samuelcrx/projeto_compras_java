@@ -9,12 +9,16 @@ import compras.model.Compra;
 import compras.model.Compra_Item;
 import compras.model.Fornecedor;
 import compras.model.Produto;
+import compras.uteis.GerenciadorIntegracao;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +27,7 @@ import java.util.ArrayList;
 public class compraItemDAO implements IDAO {
 
     @Override
-    public void inserir(Object objeto) throws BancoDeDadosException {
+    public void inserir(Object objeto) throws BancoDeDadosException, IntegracaoException {
         Compra_Item ci = (Compra_Item) objeto; //cast
 
         Connection con = Conexao.getConexao();
@@ -40,6 +44,7 @@ public class compraItemDAO implements IDAO {
             if (ps.executeUpdate() > 0) {
                 ci.setId(this.getIdInserido());
             }
+           
 
         } catch (SQLException ex) {
 

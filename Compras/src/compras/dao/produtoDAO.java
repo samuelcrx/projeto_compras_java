@@ -26,6 +26,38 @@ public class produtoDAO implements IDAO {
 
     @Override
     public void inserir(Object objeto) throws BancoDeDadosException {
+         Produto p = (Produto)objeto; //cast	
+
+        Connection con = Conexao.getConexao();	
+        PreparedStatement ps = null;	
+
+        try {	
+
+            ps = con.prepareStatement("INSERT INTO produtos(nome, estoque, valor_custo, valor_venda, dat_ultima_compra, fornecedores_id) VALUE(?, ?, ?, ?, ?,?)");	
+
+            ps.setString(1, p.getNome());	
+            ps.setInt(2, p.getEstoque());	
+            ps.setDouble(3, p.getValor_custo());	
+            ps.setDouble(4, p.getValor_venda());	
+            ps.setDate(5, new java.sql.Date( p.getDat_ultima_compra().getTime().getTime() ));	
+            ps.setInt(6, p.getFornecedor().getId());	
+
+            if ( ps.executeUpdate() > 0 )	
+                p.setId( this.getIdInserido() );	
+
+
+        } catch (SQLException ex) {	
+
+            throw new BancoDeDadosException(ex.getMessage());           	
+
+        } finally{	
+            try {	
+                ps.close();	
+            } catch (SQLException ex) {	
+                throw new BancoDeDadosException(ex.getMessage()); 	
+            }	
+        }	
+    
     }
 
     private int getIdInserido() throws BancoDeDadosException {

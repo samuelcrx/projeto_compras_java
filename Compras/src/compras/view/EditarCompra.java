@@ -212,7 +212,7 @@ public class EditarCompra extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(rootPane, "Registro atualizado com sucesso");
 
-            Compra telaCompra = new Compra();
+            Compras telaCompra = new Compras();
             telaCompra.setVisible(true);
 
             this.dispose();

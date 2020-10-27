@@ -8,6 +8,10 @@ package compras.view;
 import compras.controller.ComprasController;
 import compras.dao.BancoDeDadosException;
 import compras.model.Utilitarios;
+import compras.model.Compra;
+import compras.uteis.GerenciadorIntegracao;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,11 +21,11 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author G0NN4 CRY
  */
-public class Compra extends javax.swing.JFrame {
+public class Compras extends javax.swing.JFrame {
 
     private ComprasController controlador;
 
-    public Compra() throws BancoDeDadosException {
+    public Compras() throws BancoDeDadosException {
         initComponents();
         this.setLocationRelativeTo(null);
 
@@ -57,6 +61,7 @@ public class Compra extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
+        jBtnImportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,6 +121,13 @@ public class Compra extends javax.swing.JFrame {
             }
         });
 
+        jBtnImportar.setText("Exportar Dados");
+        jBtnImportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnImportarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,7 +141,8 @@ public class Compra extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBtnImportar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
@@ -145,13 +158,17 @@ public class Compra extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jBtnImportar))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -235,6 +252,31 @@ public class Compra extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jBtnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnImportarActionPerformed
+       
+        try {
+            ArrayList<Compra> lista = new ArrayList<Compra>();
+            
+            
+            for (int i = 0; i < this.controlador.getListaCompras().size(); i++) {
+                
+                lista.add(new Compra(
+                        this.controlador.getListaCompras().get(i).getId(),
+                        this.controlador.getListaCompras().get(i).getDat_compra(),
+                        this.controlador.getListaCompras().get(i).getNota_fiscal(),
+                        this.controlador.getListaCompras().get(i).getValor_total(),
+                        this.controlador.getListaCompras().get(i).getFornecedor().getId()
+                ));
+            }
+            
+            GerenciadorIntegracao.produzDadosIntegracao(1, 0, lista);
+            
+            JOptionPane.showMessageDialog(rootPane, "Dados exportados com sucesso");
+        } catch (IOException ex) {
+            Logger.getLogger(CompraItem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBtnImportarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -266,7 +308,7 @@ public class Compra extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Compra().setVisible(true);
+                    new Compras().setVisible(true);
                 } catch (BancoDeDadosException ex) {
                     Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -275,6 +317,7 @@ public class Compra extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnImportar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

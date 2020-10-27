@@ -6,12 +6,15 @@
 package compras.controller;
 
 import compras.dao.BancoDeDadosException;
+import compras.dao.IntegracaoException;
 import compras.dao.compraDAO;
 import compras.dao.compraItemDAO;
 import compras.dao.produtoDAO;
 import compras.model.Compra;
 import compras.model.Compra_Item;
 import compras.model.Produto;
+import compras.uteis.ManipuladorArquivo;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +35,7 @@ public class ComprasItensController {
         this.listaCompraItens = db.buscaTodos();
     }
 
-    public void cadastrar(int quantidade, double valor, int indiceCompra, int indiceProduto) throws BancoDeDadosException {
+    public void cadastrar(int quantidade, double valor, int indiceCompra, int indiceProduto) throws BancoDeDadosException, IOException, IntegracaoException {
 
         Compra_Item compra = new Compra_Item();
 
@@ -48,10 +51,10 @@ public class ComprasItensController {
         this.db.inserir(compra);
 
         this.listaCompraItens.add(compra);
-
+        
     }
 
-    public void salvar(int quantidade, double valor, int indiceCompra, int indiceProduto) throws BancoDeDadosException {
+    public void salvar(int quantidade, double valor, int indiceCompra, int indiceProduto) throws BancoDeDadosException, IOException {
         Compra_Item compraItem;
 
         if (this.compraItem != null) {
@@ -72,7 +75,7 @@ public class ComprasItensController {
             this.listaCompraItens.set(indice, compraItem);
 
             this.db.atualizar(compraItem);
-
+            
             this.indice = 0;
             this.compraItem = null;
 
@@ -80,9 +83,11 @@ public class ComprasItensController {
 
     }
 
-    public int excluir(int indice) throws BancoDeDadosException {
+    public int excluir(int indice) throws BancoDeDadosException, IOException {
 
-        int reg = this.db.excluir(indice);
+        int reg = this.db.excluir(indice);       
+        
+        ManipuladorArquivo.escritor("C:/Users/Pedro/Documents/comprasitens.csv", "1;" + indice);
 
         return reg;
 

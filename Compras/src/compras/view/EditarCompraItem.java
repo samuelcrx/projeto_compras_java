@@ -7,6 +7,7 @@ package compras.view;
 
 import compras.controller.ComprasItensController;
 import compras.dao.BancoDeDadosException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -242,6 +243,8 @@ public class EditarCompraItem extends javax.swing.JFrame {
 
             this.dispose();
         } catch (BancoDeDadosException ex) {
+            Logger.getLogger(EditarCompraItem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(EditarCompraItem.class.getName()).log(Level.SEVERE, null, ex);
         }
 
