@@ -38,8 +38,8 @@ public class compraItemDAO implements IDAO {
             ps = con.prepareStatement("INSERT INTO compras_itens(quantidade, valor, compras_id, produtos_id) VALUE(?, ?, ?, ?)");
             ps.setInt(1, ci.getQuantidade());
             ps.setDouble(2, ci.getValor());
-            ps.setInt(3, ci.getCompras_id().getId());
-            ps.setInt(4, ci.getProdutos_id().getId());
+            ps.setInt(3, ci.getCompras().getId());
+            ps.setInt(4, ci.getProdutos().getId());
 
             if (ps.executeUpdate() > 0) {
                 ci.setId(this.getIdInserido());
@@ -101,8 +101,8 @@ public class compraItemDAO implements IDAO {
 
             ps.setInt(1, ci.getQuantidade());
             ps.setDouble(2, ci.getValor());
-            ps.setInt(3, ci.getCompras_id().getId());
-            ps.setInt(4, ci.getProdutos_id().getId());
+            ps.setInt(3, ci.getCompras().getId());
+            ps.setInt(4, ci.getProdutos().getId());
             ps.setInt(5, ci.getId());
 
             ps.executeUpdate();

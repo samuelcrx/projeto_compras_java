@@ -61,8 +61,8 @@ public class EditarCompraItem extends javax.swing.JFrame {
         if (this.controlador.getCompraItens() != null) {
             this.jtfQtd.setText(this.controlador.getCompraItens().getQuantidade() + "");
             this.jtfValor.setText(this.controlador.getCompraItens().getValor() + "");
-            this.jcbCompra.setSelectedItem(this.controlador.getCompraItens().getCompras_id().getNota_fiscal());
-            this.jcbProduto.setSelectedItem(this.controlador.getCompraItens().getProdutos_id().getNome());
+            this.jcbCompra.setSelectedItem(this.controlador.getCompraItens().getCompras().getNota_fiscal());
+            this.jcbProduto.setSelectedItem(this.controlador.getCompraItens().getProdutos().getNome());
 
         }
     }

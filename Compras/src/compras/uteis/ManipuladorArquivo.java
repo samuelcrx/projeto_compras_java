@@ -20,37 +20,6 @@ import java.util.Scanner;
  */
 public class ManipuladorArquivo {
 
-    /*
-         public static void ler(){
-
-        String caminho = "C:/Users/Pedro/Documents";
-        String nomeArquivo = "exporta.txt";
-        try {
-            String linha = "";
-
-            FileReader leitor = new FileReader(caminho + "/" + nomeArquivo);
-
-            BufferedReader buffer = new BufferedReader(leitor);
-
-            while (true) {
-
-                if (linha != null) {
-                    System.out.println("conteudo do arquivo" + linha);
-                } else {
-                    break;
-                }
-
-                linha = buffer.readLine();
-                
-            }
-            
-            buffer.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-*/
     public static void escritor(String path, String conteudo) throws IOException {
 
         FileWriter arquivo = new FileWriter(path, true);

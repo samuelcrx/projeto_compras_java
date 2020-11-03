@@ -44,8 +44,8 @@ public class CompraItem extends javax.swing.JFrame {
                         this.controlador.getListaComprasItens().get(i).getId(),
                         this.controlador.getListaComprasItens().get(i).getQuantidade(),
                         this.controlador.getListaComprasItens().get(i).getValor(),
-                        this.controlador.getListaComprasItens().get(i).getCompras_id().getId(),
-                        this.controlador.getListaComprasItens().get(i).getProdutos_id().getId(),}
+                        this.controlador.getListaComprasItens().get(i).getCompras().getId(),
+                        this.controlador.getListaComprasItens().get(i).getProdutos().getId(),}
             );
         }
     }
@@ -262,12 +262,13 @@ public class CompraItem extends javax.swing.JFrame {
                         this.controlador.getListaComprasItens().get(i).getId(),
                         this.controlador.getListaComprasItens().get(i).getQuantidade(),
                         this.controlador.getListaComprasItens().get(i).getValor(),
-                        this.controlador.getListaComprasItens().get(i).getCompras_id().getId(),
-                        this.controlador.getListaComprasItens().get(i).getProdutos_id().getId()
+                        this.controlador.getListaComprasItens().get(i).getCompras().getId(),
+                        this.controlador.getListaComprasItens().get(i).getProdutos().getId()
                 ));
             }
             
             GerenciadorIntegracao.produzDadosIntegracao(0, 0, lista);
+            JOptionPane.showMessageDialog(rootPane, "Dados exportados com sucesso");
         } catch (IOException ex) {
             Logger.getLogger(CompraItem.class.getName()).log(Level.SEVERE, null, ex);
         }

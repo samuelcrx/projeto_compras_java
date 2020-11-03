@@ -31,14 +31,15 @@ public class GerenciadorIntegracao {
 
     private static String pathImportacao = "C:\\integracao\\compras\\importacao\\";
 
+
     /**
      * Metodo que pega os dados e gera registros no arquivo csv da integração
      *
+     * @flagIntegracao indica qual registro deve ser produzido: 0 - exportar
+     * Compras Itens; 1 - exportar Compras;
      * @param operacao indica o tipo da op que está sendo realizado: 0 - novo
-     * registro; 1 - atualização; 2 - exclusão
-     * @param obj Objeto que contém os dados de integração
-     * @flagIntegracao indica qual registro deve ser produzido: 0 -
-     * ComprasItens; 1 - Compras
+     * registro;
+     * @param lista Lista dos arquivos que vão ser exportados
      */
     public static void produzDadosIntegracao(int flagIntegracao, int operacao, ArrayList lista) throws IOException {
 
@@ -72,36 +73,37 @@ public class GerenciadorIntegracao {
     }
 
     private static void exportaCompraItens(int operacao, ArrayList lista) throws IOException {
-        
+
         for (Object linha : lista) {
 
-            Compra_Item ci = (Compra_Item)linha;
-            
+            Compra_Item ci = (Compra_Item) linha;
+
             Date data = new Date();
-            SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             String dataFormatada = formatador.format(data);
-            
-            String conteudo = operacao + ";" + ci.getId() + ";" + ci.getQuantidade() + ";" + ci.getValor() + ";" + ci.getCompras_id2() + ";" +ci.getProdutos_id2() + ";" + dataFormatada;
+
+            String conteudo = operacao + ";" + ci.getId() + ";" + ci.getQuantidade() + ";" + ci.getValor() + ";" + ci.getCompras_id() + ";" + ci.getProdutos_id() + ";" + dataFormatada;
             ManipuladorArquivo.escritor(pathExportacao + "comprasitens.csv", conteudo);
         }
-        
+
     }
 
     private static void exportaCompras(int operacao, ArrayList lista) throws IOException {
-        
+
         for (Object linha : lista) {
 
-            Compra c = (Compra)linha;
-            
+            Compra c = (Compra) linha;
+
             Date data = new Date();
-            SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             String dataFormatada = formatador.format(data);
-            
-            String conteudo = operacao + ";" + c.getId() + ";" + Utilitarios.formatarData(c.getDat_compra())+ ";" + c.getNota_fiscal()+ ";" + c.getValor_total()+ ";" +c.getFornecedorId()+ ";" + dataFormatada;
+
+            String conteudo = operacao + ";" + c.getId() + ";" + Utilitarios.formatarData(c.getDat_compra()) + ";" + c.getNota_fiscal() + ";" + c.getValor_total() + ";" + c.getFornecedorId() + ";" + dataFormatada;
             ManipuladorArquivo.escritor(pathExportacao + "compras.csv", conteudo);
-        }  
+        }
     }
-    
+
+    /* Importação dos produtos */
     private static void consomeDadosProdutos() throws IntegracaoException, IOException, BancoDeDadosException, ParseException {
 
         File dir = new File(pathImportacao);
@@ -117,7 +119,7 @@ public class GerenciadorIntegracao {
         }
 
         ArrayList<String> registros = ManipuladorArquivo.leitor(pathImportacao + "produtos.csv");
-        System.out.println(registros);
+
         for (String linha : registros) {
 
             //quebrar a linha com os campos correto
@@ -137,14 +139,14 @@ public class GerenciadorIntegracao {
                 }
             }
         }
-        
+
         File diretorioDestino = new File("C:\\integracao\\compras\\importados\\");
 
         if (!diretorioDestino.exists()) {
             diretorioDestino.mkdir();
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy'T'HH;mm;ss");
         Date date = new Date();
         String dataAtual = dateFormat.format(date);
 
@@ -161,6 +163,7 @@ public class GerenciadorIntegracao {
         dir = null;
     }
 
+    /* Importação dos fornecedores  */
     private static void consomeDadosFornecedores() throws IntegracaoException, IOException, BancoDeDadosException {
 
         File dir = new File(pathImportacao);
@@ -204,10 +207,10 @@ public class GerenciadorIntegracao {
             diretorioDestino.mkdir();
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = new Date();
-        String dataAtual = dateFormat.format(date);
-
+        Date data = new Date();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy'T'HH;mm;ss");
+        String dataAtual = formatador.format(data);
+        System.out.println(dataAtual);
         boolean foiMovido = arquivo.renameTo(new File(diretorioDestino, arquivo.getName().replaceAll(".csv", dataAtual + ".csv")));
 
         if (foiMovido) {
@@ -256,7 +259,7 @@ public class GerenciadorIntegracao {
         Fornecedor f = forDAO.buscaPorId(Integer.parseInt(dados[7]));
 
         Produto produto = new Produto();
-        
+
         produto.setId(id);
         produto.setNome(dados[2]);
         produto.setEstoque(Integer.parseInt(dados[3]));
