@@ -73,6 +73,14 @@ public class GerenciadorIntegracao {
     }
 
     private static void exportaCompraItens(int operacao, ArrayList lista) throws IOException {
+        
+        File arquivo = new File(pathExportacao + "comprasitens.csv");;
+        
+        if(arquivo.exists()) {
+            arquivo.delete();
+        }
+        
+        arquivo = null;
 
         for (Object linha : lista) {
 
@@ -89,7 +97,15 @@ public class GerenciadorIntegracao {
     }
 
     private static void exportaCompras(int operacao, ArrayList lista) throws IOException {
-
+        
+        File arquivo = new File(pathExportacao + "compras.csv");;
+        
+        if(arquivo.exists()) {
+            arquivo.delete();
+        }
+        
+        arquivo = null;
+        
         for (Object linha : lista) {
 
             Compra c = (Compra) linha;
